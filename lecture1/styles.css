@@ -1,0 +1,141 @@
+:root {
+  --neon-accent: #bf00ff;
+  --neon-green: #00ff00;
+  --neon-green-rgb: 0, 255, 0;
+  --neon-accent-rgb: 191, 0, 255;
+  --neon-pink: #ff007f;
+  --dark-bg: #0a0a0c;
+}
+
+body {
+  background-color: var(--dark-bg);
+}
+
+.neon-label {
+  display: inline-block;
+  margin: 6px 0 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--neon-green-rgb), 0.55);
+  background: rgba(var(--neon-green-rgb), 0.08);
+  color: var(--neon-green);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-shadow: 0 0 10px rgba(var(--neon-accent-rgb), 0.9);
+}
+
+.card-avatar-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0 auto 25px;
+}
+
+img {
+  width: 100%;
+}
+
+
+.neon-card {
+  margin: 60px auto 0 auto;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(var(--neon-accent-rgb), 0.2);
+  border-radius: 25px;
+  padding: 40px;
+  width: 320px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  transition: 0.4s;
+  box-shadow: 0 0 30px var(--neon-accent);
+}
+
+.card-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--neon-accent);
+  /* Многослойное свечение вокруг кота */
+  box-shadow: 0 0 10px var(--neon-accent),
+    0 0 20px var(--neon-accent),
+    inset 0 0 10px var(--neon-accent);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pulse-text {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px var(--neon-pink);
+  animation: pulse 2s infinite;
+}
+
+/* Стилизация кнопок-скиллов для красоты */
+.skills {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.8rem;
+}
+
+.skills span {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.neon-btn {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  color: var(--neon-accent);
+  text-decoration: none;
+  text-align: center;
+  border: 2px solid var(--neon-accent);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+.neon-btn:visited {
+  color: var(--neon-accent);
+}
+
+.neon-btn:hover {
+  background: var(--neon-accent);
+  color: var(--dark-bg);
+  box-shadow: 0 0 30px var(--neon-accent);
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
