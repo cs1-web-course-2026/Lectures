@@ -1,0 +1,15 @@
+for (let i = 1; i <= 5; i++) {
+  console.log('Завдання #' + i);
+}
+
+let favoriteDishes = ['🍕', '🍔', '🍣'];
+for (let food of favoriteDishes) {
+  console.log('Я люблю ' + food);
+}
+
+// Example with while loop
+let loadingProgres = 73;
+while (loadingProgres <= 100) {
+  console.log('Loading ...' + loadingProgres);
+  loadingProgres++;
+}
