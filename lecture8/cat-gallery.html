@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Галерея Котиків</title>
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: #eef;
+      }
+      .gallery-container {
+        max-width: 800px;
+        margin: auto;
+        text-align: center;
+      }
+      #main-photo {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+      }
+      #main-photo:hover {
+        transform: scale(1.02); /* Ефект при наведенні */
+      }
+      .photo-wrapper {
+        position: relative;
+        width: 100%;
+      }
+      .loader-overlay {
+        display: none;
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 15px;
+        align-items: center;
+        justify-content: center;
+      }
+      .loader-overlay.active {
+        display: flex;
+      }
+      .loader-spinner {
+        width: 52px;
+        height: 52px;
+        border: 5px solid rgba(255, 255, 255, 0.25);
+        border-top-color: #f06;
+        border-radius: 50%;
+        animation: spin 0.75s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .thumbnails {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .thumb {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: border-color 0.3s;
+      }
+      .thumb:hover,
+      .thumb.active {
+        border-color: #f06;
+      }
+      .controls {
+        margin-top: 20px;
+      }
+      input {
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      #log {
+        margin-top: 10px;
+        color: #666;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gallery-container">
+      <h1>Інтерактивна Галерея Котиків</h1>
+      <div class="photo-wrapper">
+        <img
+          id="main-photo"
+          src="https://img.freepik.com/free-photo/cat-lying_1160-665.jpg?semt=ais_incoming&w=740&q=80"
+          alt="Велике фото котика"
+        />
+        <div class="loader-overlay" id="loader">
+          <div class="loader-spinner"></div>
+        </div>
+      </div>
+      <p id="log">Наведіть мишу на фото або натисніть `C` для сюрпризу</p>
+
+      <div class="thumbnails">
+        <img
+          class="thumb active"
+          src="https://img.freepik.com/free-photo/cat-lying_1160-665.jpg?semt=ais_incoming&w=740&q=80"
+          alt="Котик 1"
+        />
+        <img
+          class="thumb"
+          src="https://img.freepik.com/free-photo/cat-lying_1160-670.jpg?semt=ais_incoming&w=740&q=80"
+          alt="Котик 2"
+        />
+        <img
+          class="thumb"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUkziw9bIPELgZ7XhZKc5IWS5f6f-2p0ILwQ&s"
+          alt="Котик 3"
+        />
+        <img
+          class="thumb"
+          src="https://plus.unsplash.com/premium_photo-1667030474693-6d0632f97029?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2F0fGVufDB8fDB8fHww"
+          alt="Котик 4"
+        />
+      </div>
+
+      <div class="controls">
+        <label for="cat-name">Введіть коментар: </label>
+        <input
+          type="text"
+          id="cat-name"
+          placeholder="Наприклад, 'Який милий!'"
+        />
+      </div>
+    </div>
+
+    <script>
+      const mainPhoto = document.querySelector('#main-photo');
+      const thumbnails = document.querySelectorAll('.thumb');
+      const log = document.querySelector('#log');
+      const input = document.querySelector('#cat-name');
+      const loader = document.querySelector('#loader');
+
+      // Show loader only if image takes longer than 150ms (prevents flicker on cache hits)
+      let loaderTimer = null;
+      function showLoaderDelayed() {
+        loaderTimer = setTimeout(() => loader.classList.add('active'), 150);
+      }
+      function hideLoader() {
+        clearTimeout(loaderTimer);
+        loader.classList.remove('active');
+      }
+
+      if (!mainPhoto.complete) showLoaderDelayed();
+      mainPhoto.addEventListener('load', hideLoader);
+
+      // --- Демо 1: Подія 'click' на мініатюрах ---
+      thumbnails.forEach((thumb) => {
+        thumb.addEventListener('click', function (event) {
+          // event.target - це саме той елемент, на який клікнули
+          const clickedThumb = event.target;
+          console.log('clickedThumb -', clickedThumb);
+
+          // Міняємо головне фото
+          showLoaderDelayed();
+          mainPhoto.src = clickedThumb.src;
+          log.textContent = `Ви обрали фото: ${clickedThumb.alt}`;
+
+          // Оновлюємо активний клас
+          document.querySelector('.thumb.active').classList.remove('active');
+          clickedThumb.classList.add('active');
+        });
+      });
+
+      // --- Демо 2: Події 'mouseover' та 'mouseout' на головному фото ---
+      mainPhoto.addEventListener('mouseover', function () {
+        log.textContent = 'О, ви розглядаєте цього красеня ближче!';
+      });
+
+      mainPhoto.addEventListener('mouseout', function () {
+        log.textContent =
+          'Наведіть мишу на фото або натисніть `C` для сюрпризу';
+      });
+
+      // --- Демо 3: Подія 'keydown' на всій сторінці ---
+      document.addEventListener('keydown', function (event) {
+        // event.key містить назву натиснутої клавіші
+        if (event.key.toLowerCase() === 'c') {
+          document.body.style.background = `hsl(${Math.random() * 360}, 100%, 90%)`;
+          log.textContent = 'Вау! Ви знайшли пасхалку і змінили колір фону!';
+        }
+      });
+
+      // --- Демо 4: Подія 'input' на полі вводу ---
+      input.addEventListener('input', function (event) {
+        // event.target.value містить поточний текст у полі
+        console.log(`Користувач друкує: ${event.target.value}`);
+        if (event.target.value) {
+          log.textContent = `Ваш коментар: "${event.target.value}"`;
+        }
+      });
+    </script>
+  </body>
+</html>
